@@ -27,7 +27,7 @@ conda activate openmm-dev
 conda install -c conda-forge openmm mdtraj numpy matplotlib
 
 # Clone repository
-git clone https://github.com/yourusername/openmm-platforms.git
+git clone https://github.com/campandtell/openmm-platforms.git
 cd openmm-platforms
 
 # Install in development mode

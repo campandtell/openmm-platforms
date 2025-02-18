@@ -64,6 +64,7 @@ cd example_systems/1btl
 # Download 1BTL structure
 wget https://files.rcsb.org/download/1BTL.pdb
 mv 1BTL.pdb 1btl.pdb
+cd ../../
 ```
 
 ### 2. Run Simulation Locally

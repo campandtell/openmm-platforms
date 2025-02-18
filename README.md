@@ -40,8 +40,19 @@ pip install -e .
 # Build Docker image
 docker build -t openmm-platforms .
 
-# Run container with GPU support
-sudo docker run -it --gpus all -v "$(pwd):/workspace" openmm-platforms
+# If you want to run GUI applications (e.g., image viewers) inside the container
+# so that windows pop up on your host machine, first allow local root connections:
+# (Run this on your host, not inside Docker. You'll need xhost installed on your host.)
+xhost +local:root
+
+# Run container with GPU support and X11 forwarding
+docker run -it \
+    --gpus all \
+    -v "$(pwd):/workspace" \
+    -e DISPLAY=$DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    --net=host \
+    openmm-platforms bash
 ```
 
 ## Usage Example
@@ -152,13 +163,6 @@ openmm-platforms/
         └── 1btl.pdb
 ```
 
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## License
 

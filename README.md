@@ -30,8 +30,6 @@ conda install -c conda-forge openmm mdtraj numpy matplotlib
 git clone https://github.com/campandtell/openmm-platforms.git
 cd openmm-platforms
 
-# Install in development mode
-pip install -e .
 ```
 
 ### Docker Setup

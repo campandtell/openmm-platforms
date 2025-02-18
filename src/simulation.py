@@ -5,12 +5,25 @@ from openmm.unit import *
 import numpy as np
 
 class MDSimulation:
-    def __init__(self, pdb_file, params_file=None):
+    def __init__(self, pdb_file, params_file=None, ph=7.0):
         """Initialize simulation parameters."""
+        # Load PDB file
         self.pdb = app.PDBFile(pdb_file)
         self.params = params_file
         self.system = None
         self.simulation = None
+        
+        # Create a modeller instance
+        modeller = app.Modeller(self.pdb.topology, self.pdb.positions)
+        
+        # Add hydrogens appropriate for pH 7.0
+        modeller.addHydrogens(forcefield=app.ForceField('amber14-all.xml'), pH=ph)
+        
+        # Update topology and positions with added hydrogens
+        self.pdb.topology = modeller.topology
+        self.pdb.positions = modeller.positions
+        
+        print(f"Structure prepared with hydrogens at pH {ph}")
         
     def solvate_and_neutralize(self, boxPadding=1.0*nanometers, ionicStrength=0.1*molar):
         """Solvate the protein in a water box and add ions."""

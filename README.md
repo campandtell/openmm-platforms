@@ -61,14 +61,14 @@ mv 1BTL.pdb 1btl.pdb
 
 ```bash
 # Run simulation with local GPU
-python scripts/local_run.py --pdb example_systems/1btl/1btl.pdb --steps 500000
+python3 scripts/local_run.py --pdb example_systems/1btl/1btl.pdb --steps 50000
 ```
 
 This will:
 - Load the 1BTL structure
 - Solvate and neutralize the system
 - Save the prepared system as 'solvated_system.pdb'
-- Run 500,000 steps of simulation
+- Run 50,000 steps of simulation
 - Output:
   - trajectory.dcd: Simulation trajectory
   - simulation_output.txt: Energy, temperature logs
@@ -77,14 +77,14 @@ This will:
 
 ```bash
 # Run analysis
-python src/analysis.py \
+python3 src/analysis.py \
     --traj trajectory.dcd \
     --top solvated_system.pdb \
     --ca-out ca_only.dcd \
     --rmsf-plot rmsf.png \
     --cov-dir covariance_results \
-    --window-size 100 \
-    --stride 50
+    --window-size 10 \
+    --stride 5
 ```
 
 This will generate:
@@ -125,7 +125,7 @@ bash scripts/aws_setup.sh
 
 3. Run simulation:
 ```bash
-python scripts/local_run.py --pdb example_systems/1btl/1btl.pdb --steps 500000
+python3 scripts/local_run.py --pdb example_systems/1btl/1btl.pdb --steps 500000
 ```
 
 ## Directory Structure

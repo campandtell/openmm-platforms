@@ -41,7 +41,7 @@ pip install -e .
 docker build -t openmm-platforms .
 
 # Run container with GPU support
-docker run --gpus all -v $(pwd):/workspace openmm-platforms
+sudo docker run -it --gpus all -v "$(pwd):/workspace" openmm-platforms
 ```
 
 ## Usage Example

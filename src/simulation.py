@@ -16,14 +16,26 @@ class MDSimulation:
         # Create a modeller instance
         modeller = app.Modeller(self.pdb.topology, self.pdb.positions)
         
+        # Remove non-protein molecules (like SO4)
+        to_delete = []
+        for res in modeller.topology.residues():
+            if res.name not in ['HIS', 'ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 
+                              'GLY', 'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 
+                              'THR', 'TRP', 'TYR', 'VAL', 'HSE', 'HSD', 'HSP', 'HIE', 
+                              'HID', 'HIP', 'CYX']:
+                to_delete.append(res)
+        modeller.delete(to_delete)
+        print(f"Removed {len(to_delete)} non-protein residues")
+        
         # Add hydrogens appropriate for pH 7.0
         modeller.addHydrogens(forcefield=app.ForceField('amber14-all.xml'), pH=ph)
         
-        # Update topology and positions with added hydrogens
+        # Update topology and positions with cleaned structure
         self.pdb.topology = modeller.topology
         self.pdb.positions = modeller.positions
         
         print(f"Structure prepared with hydrogens at pH {ph}")
+        print(f"Final system has {modeller.topology.getNumResidues()} residues and {modeller.topology.getNumAtoms()} atoms")
         
     def solvate_and_neutralize(self, boxPadding=1.0*nanometers, ionicStrength=0.1*molar):
         """Solvate the protein in a water box and add ions."""
